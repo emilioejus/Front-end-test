@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Search from './Search';
+import { AppContext } from '../context/AppContext';
+import Search from '../components/Search';
 import '../assets/styles/listView.css';
 
 const ListView = ()=> {
@@ -12,15 +13,22 @@ const ListView = ()=> {
     const [list, setList] = useState([]);
     const [search, setSearch] = useState("")
 
+    //context
+    const { setItemId } = useContext(AppContext);
+
     //navigate
     let navigate = useNavigate();
 
     //useEffect
     useEffect(()=> {
         let listFetch = async ()=> {
-            let res = await fetch(API)
-            let data = await res.json()
-            setList(data)
+            try {
+                let res = await fetch(API)
+                let data = await res.json()
+                setList(data)
+            } catch (error) {
+                console.error(error)
+            }
         }
         listFetch()
     }, []);
@@ -43,7 +51,10 @@ const ListView = ()=> {
                         return (
                             <li key={id}>
                                 <div className="card" 
-                                     onClick={()=> navigate('/details')}>
+                                     onClick={()=> {
+                                        navigate('/details')
+                                        setItemId(item.id)
+                                     }}>
                                     <img src={item.imgUrl} className="card-img-top" alt="imagen" />
                                     <div className="card-body">
                                         <ul className='container_list_details'>

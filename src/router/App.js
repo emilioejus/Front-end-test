@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Navbar from '../components/Navbar';
-import ListView from '../components/ListView';
+import ListView from '../view/ListView';
 import Details from '../view/Details';
 import '../assets/App.css';
 

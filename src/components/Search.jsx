@@ -11,7 +11,7 @@ const Search = ({setSearch})=> {
     };
 
     return (
-        <input type="text" ref={searchInput} placeholder='Buscar' onChange={handleSearch}></input>
+        <input type="text" ref={searchInput} placeholder='Search' onChange={handleSearch}></input>
     )
 };
 
