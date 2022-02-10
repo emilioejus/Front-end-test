@@ -39,9 +39,9 @@ const Details = ()=> {
                 })
             })
             let data = await res.json()
-            // localStorage.clear("count")
-            // localStorage.setItem("count", data.count + count)
-            setCount(count + data.count)
+            localStorage.clear("count")
+            setCount(parseInt(count) + parseInt(data.count))
+            localStorage.setItem("count", (parseInt(count) + parseInt(data.count)) )
             
         } catch (error) {
             console.error(error)

@@ -4,7 +4,8 @@ export const AppContext = createContext();
 
 export const AppProvider = ({children})=> {
     const [itemId, setItemId] = useState("");
-    const [count, setCount] = useState(0);
+    const [count, setCount] = useState(localStorage.getItem("count") ? localStorage.getItem("count") : 0);
+    console.log(count)
 
     return (
         <AppContext.Provider value={{

@@ -96,14 +96,13 @@ self.addEventListener('install', event => {
     return cache.addAll([
       '/',
       '/index.js',
-      '/index.css'
-    //   '/index.html',
-    //   '/assets/index.js',
-    //   '/assets/MediaPlayer.js',
-    //   '/assets/plugins/AutoPlay.js',
-    //   '/assets/plugins/AutoPause.js',
-    //   '/assets/index.css',
-    //   '/assets/BigBuckBunny.mp4',
+      '/index.css',
+      '/view/Details.jsx',
+      '/view/ListView.jsx',
+      '/compinents/Navbar.jsx',
+      '/compinents/Search.jsx',
+      '/assets/styles/listView.css',
+      '/context/AppContext.js'
     ]);
   }
   
