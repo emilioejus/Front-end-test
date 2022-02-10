@@ -54,6 +54,8 @@ const ListView = ()=> {
                                      onClick={()=> {
                                         navigate('/details')
                                         setItemId(item.id)
+                                        localStorage.clear("itemId")
+                                        localStorage.setItem("itemId", item.id)
                                      }}>
                                     <img src={item.imgUrl} className="card-img-top" alt="imagen" />
                                     <div className="card-body">
