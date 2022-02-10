@@ -23,7 +23,7 @@ const Navbar = ()=> {
                     <Link className="nav-link active" to="/">List View</Link>
                   </li>
                   <li className="nav-item">
-                    <Link className="nav-link" to="/">Detail</Link>
+                    <Link className="nav-link" to="/details">Detail</Link>
                   </li>
                 </ul>
               </div>

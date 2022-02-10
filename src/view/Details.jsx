@@ -14,7 +14,7 @@ const Details = ()=> {
     const [storages, setStorages] = useState([]);
 
     //context
-    const { itemId, setCount } = useContext(AppContext);
+    const { itemId, count, setCount } = useContext(AppContext);
 
     //useRef
     const colorCode = useRef(null); //devuelve el codigo del color
@@ -39,8 +39,9 @@ const Details = ()=> {
                 })
             })
             let data = await res.json()
-            console.log(data.count)
-            setCount(data.count)
+            // localStorage.clear("count")
+            // localStorage.setItem("count", data.count + count)
+            setCount(count + data.count)
             
         } catch (error) {
             console.error(error)
