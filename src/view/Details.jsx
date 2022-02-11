@@ -39,7 +39,7 @@ const Details = ()=> {
                 })
             })
             let data = await res.json()
-            localStorage.clear("count")
+            localStorage.removeItem("count")
             setCount(parseInt(count) + parseInt(data.count))
             localStorage.setItem("count", (parseInt(count) + parseInt(data.count)) )
             

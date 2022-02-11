@@ -31,6 +31,13 @@ const ListView = ()=> {
             }
         }
         listFetch()
+        //elimina la persistencia de datos despues de 1 hora
+        if(localStorage.getItem("time")) {
+            Date.now() - localStorage.getItem("time") > 3600000 && localStorage.clear() 
+        } else {
+            localStorage.setItem("time", Date.now())
+        }
+
     }, []);
     //filter items
     const filterItems = list.filter( item => {
@@ -54,7 +61,7 @@ const ListView = ()=> {
                                      onClick={()=> {
                                         navigate('/details')
                                         setItemId(item.id)
-                                        localStorage.clear("itemId")
+                                        localStorage.removeItem("itemId")
                                         localStorage.setItem("itemId", item.id)
                                      }}>
                                     <img src={item.imgUrl} className="card-img-top" alt="imagen" />
