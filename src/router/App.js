@@ -5,13 +5,14 @@ import Details from '../view/Details';
 import '../assets/App.css';
 
 function App() {
+
   return (
     <div className="App">
       <Router>
         <Navbar />
         <Routes>
           <Route exact path='/' element={<ListView />} />
-          <Route exact path='/details' element={<Details />} />
+          <Route exact path='/details/:id' element={<Details />} />
         </Routes>
       </Router>
     </div>

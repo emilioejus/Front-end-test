@@ -1,84 +1,59 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { AppContext } from '../context/AppContext';
 import Search from '../components/Search';
-import '../assets/styles/listView.css';
+import useGetList from '../hooks/useGetList';
 
 const ListView = ()=> {
 
-    //Api
-    const API = "https://front-test-api.herokuapp.com/api/product";
 
     //state
     const [list, setList] = useState([]);
     const [search, setSearch] = useState("")
 
-    //context
-    const { setItemId } = useContext(AppContext);
-
     //navigate
     let navigate = useNavigate();
 
-    //useEffect
-    useEffect(()=> {
-        let listFetch = async ()=> {
-            try {
-                let res = await fetch(API)
-                let data = await res.json()
-                setList(data)
-            } catch (error) {
-                console.error(error)
-            }
-        }
-        listFetch()
-        //elimina la persistencia de datos despues de 1 hora
-        if(localStorage.getItem("time")) {
-            Date.now() - localStorage.getItem("time") > 3600000 && localStorage.clear() 
-        } else {
-            localStorage.setItem("time", Date.now())
-        }
+    useGetList(setList)
 
-    }, []);
-    //filter items
     const filterItems = list.filter( item => {
-            return item.brand.toLowerCase().includes(search.toLowerCase()) || item.model.toLowerCase().includes(search.toLowerCase())
+            return item.brand.toLowerCase().includes(search.toLowerCase()) || 
+                   item.model.toLowerCase().includes(search.toLowerCase())
     });
 
     return(
         <>
-        <main className='container_list'>
-            <div className='container_list_head'>
-                <h5>List View</h5>
-                <Search className="container_list_input" setSearch={setSearch} />
+        <main className='container'>
+            <div className='row mt-3 me-2 ms-2'>
+                <h5 className='cols'>List View</h5>
+                <div className=" cols d-flex justify-content-end pt-2 pb-2 mb-2">
+                    <Search setSearch={setSearch} />
+                </div>
             </div>
-            <section className='container_list_item'>
-                <ul>
+            <div className='container'>
+                <div className='row row-cols-1 row-cols-sm-2 row-cols-xl-4'>
                     {
-                    filterItems.map((item, id) => {
-                        return (
-                            <li key={id}>
-                                <div className="card" 
-                                     onClick={()=> {
-                                        navigate('/details')
-                                        setItemId(item.id)
-                                        localStorage.removeItem("itemId")
-                                        localStorage.setItem("itemId", item.id)
-                                     }}>
-                                    <img src={item.imgUrl} className="card-img-top" alt="imagen" />
-                                    <div className="card-body">
-                                        <ul className='container_list_details'>
-                                            {item.brand && <li>{item.brand}</li>}
-                                            {item.model && <li>{item.model}</li>}
-                                            {item.price && <li>€ {item.price}</li>}
-                                        </ul>
+                        filterItems.map(item => {
+                            return (
+                                <div className='col p-4 mt-3' key={item.id}>
+                                    <div  
+                                         onClick={()=> {
+                                            navigate(`/details/${item.id}`)
+                                         }}>
+                                        <img src={item.imgUrl} className="card-img-top" alt="imagen" role="button" />
+                                        <div className="card-body">
+                                            <ul className='list-group list-group-flush'>
+                                                {item.brand && <li className='list-group-item'>{`Brand: ${item.brand}`}</li>}
+                                                {item.model && <li className='list-group-item'>{`Model: ${item.model}`}</li>}
+                                                {item.price && <li className='list-group-item'>{`Price: €${item.price}`}</li>}
+                                            </ul>
+                                        </div>
                                     </div>
                                 </div>
-                            </li> 
-                        )
-                    })
+                            )
+                        })
                     }
-                </ul>
-            </section>
+                </div>
+            </div>
         </main>
         </>
     )

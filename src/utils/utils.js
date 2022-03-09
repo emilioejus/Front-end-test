@@ -1,0 +1,1 @@
+export const timeMorethanHour = time => Date.now() - time > 3600000
