@@ -17,7 +17,9 @@ const useGetDetails = ( itemId, setItemDetails, setColors, setStorages )=> {
                 console.error(error)
             }
         };
-        itemDetailsFetch();
+        if(itemId && setItemDetails && setColors && setStorages) {
+            itemDetailsFetch();
+        }
     }, [itemId])
 
 }
