@@ -32,7 +32,7 @@ const useGetList = ( setList )=> {
             }
         }
 
-    }, []);
+    }, [setList]);
 }
 
 export default useGetList;
