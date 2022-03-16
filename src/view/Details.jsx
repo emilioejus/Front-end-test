@@ -1,12 +1,12 @@
-import React, {useState, useContext, useRef} from 'react';
+import React, {useState, useContext, useRef, useEffect} from 'react';
 import { AppContext } from '../context/AppContext';
 import { Link, useParams } from 'react-router-dom';
-import useGetDetails from '../hooks/useGetDetails';
 
 const Details = ()=> {
     
     //Api
     const API_ADD_ITEM = 'https://front-test-api.herokuapp.com/api/cart';
+    const API = 'https://front-test-api.herokuapp.com/api/product';
 
     //useState
     const [itemDetails, setItemDetails] = useState("");
@@ -63,7 +63,24 @@ const Details = ()=> {
     };
 
     //useEffet 
-    useGetDetails(itemId, setItemDetails, setColors, setStorages)
+    useEffect(()=> {
+        let itemDetailsFetch = async ()=> {
+            try {
+                let res = await fetch(`${API}/${itemId}`)
+                let data = await res.json()
+                setItemDetails(data)
+                setColors(data.options.colors)
+                setStorages(data.options.storages)
+                // console.log(data.options.colors)
+            } catch (error) {
+                console.error(error)
+            }
+        };
+
+        itemDetailsFetch();
+        
+    }, [itemId])
+
 
     return (
         <main className='d-flex flex-column p-4 flex-xl-row justify-content-evenly'>
