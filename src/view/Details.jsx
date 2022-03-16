@@ -33,8 +33,8 @@ const Details = ()=> {
             return ( <img src={itemDetails.imgUrl} alt="cell phone"/> )
         }else {
             return (
-                <div class="spinner-grow" role="status">
-                    <span class="visually-hidden">Loading...</span>
+                <div className="spinner-grow" role="status">
+                    <span className="visually-hidden">Loading...</span>
                 </div>
             )
         }
