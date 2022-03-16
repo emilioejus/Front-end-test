@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Search from '../components/Search';
-import useGetList from '../hooks/useGetList';
+// import useGetList from '../hooks/useGetList';
+import { timeMorethanHour } from '../utils/utils';
 
 const ListView = ()=> {
-
+    const API = "https://front-test-api.herokuapp.com/api/product";
 
     //state
     const [list, setList] = useState([]);
@@ -13,7 +14,34 @@ const ListView = ()=> {
     //navigate
     let navigate = useNavigate();
 
-    useGetList(setList)
+    // useGetList(setList)
+    useEffect(()=> {
+        let listFetch = async ()=> {
+            try {
+                let res = await fetch(API)
+                let data = await res.json()
+                setList(data)
+                localStorage.setItem("list", JSON.stringify(data))
+            } catch (error) {
+                console.error(error)
+            }
+        }
+
+        //elimina la persistencia de datos despues de 1 hora
+        if(!localStorage.getItem("time")) {
+            listFetch()
+            localStorage.setItem("time", Date.now())
+        }else {
+            if(timeMorethanHour(localStorage.getItem("time"))) {
+                localStorage.clear()
+                listFetch()  
+                localStorage.setItem("time", Date.now())
+            }else {
+                setList(JSON.parse(localStorage.getItem("list")))
+            }
+        }
+
+    }, []);
 
     const filterItems = list.filter( item => {
             return item.brand.toLowerCase().includes(search.toLowerCase()) || 
